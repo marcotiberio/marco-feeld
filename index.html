@@ -13,15 +13,16 @@
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --bg-deep: #131313;
-    --bg-card: #13111a;
+    --bg-deep: #0a0617;
+    --bg-card: #1d1d25;
     --bg-surface: #1a1822;
     --bg-tag: #262432;
     --bg-tag-hover: #322f40;
     --text-primary: #f0eee9;
     --text-secondary: #9b96a6;
     --text-muted: #6b6578;
-    --accent-purple: #7c6cff;
+    --accent-purple: #535ec8;
+    --accent-orange: #E72900;
     --accent-purple-soft: rgba(124, 108, 255, 0.15);
     --divider: #2a2836;
     --heart-bg: #1e1c28;
@@ -123,7 +124,7 @@
     display: flex;
     gap: 0;
     padding: 8px 0 16px 12px;
-    margin-top: 44px;
+    margin-top: 24px;
     overflow-x: auto;
   }
 
@@ -330,7 +331,7 @@
     top: 4px;
     width: 25px;
     height: 25px;
-    background-color: #E72900;
+    background-color: var(--accent-orange);
     font-size: 12px; 
     line-height: 25px;
     text-align: center;
@@ -920,6 +921,14 @@
     }
 
     .resume-panel .rp-close { display: block; }
+
+    .sticky-actions {
+      position: fixed;
+      bottom: 10px;
+      left: 0;
+      right: 0;
+      padding: 16px 20px;
+    }
   }
 </style>
 </head>
