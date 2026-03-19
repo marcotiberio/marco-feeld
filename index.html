@@ -673,7 +673,7 @@
   }
  
   .rp-title {
-    font-size: 0.875rem;
+    font-size: 1rem;
     color: var(--accent-purple);
     font-weight: 500;
     margin-bottom: 14px;
@@ -683,7 +683,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 4px 14px;
-    font-size: 0.75rem;
+    font-size: 1rem;
     color: var(--text-muted);
   }
  
@@ -693,7 +693,7 @@
   .rp-rule { height: 1px; background: var(--divider); margin: 22px 0; }
  
   .rp-label {
-    font-size: 0.65rem;
+    font-size: 1rem;
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -707,7 +707,7 @@
   .rp-label::after { content: ''; flex: 1; height: 1px; background: var(--divider); }
  
   .rp-summary p {
-    font-size: 0.855rem;
+    font-size: 1rem;
     color: var(--text-secondary);
     line-height: 1.7;
     margin-bottom: 11px;
@@ -743,14 +743,14 @@
   }
  
   .rp-exp-title {
-    font-size: 0.855rem;
+    font-size: 1rem;
     font-weight: 600;
     color: var(--text-primary);
     line-height: 1.3;
   }
  
   .rp-exp-date {
-    font-size: 0.7rem;
+    font-size: 1rem;
     color: var(--text-muted);
     white-space: nowrap;
     padding-top: 2px;
@@ -758,14 +758,14 @@
   }
  
   .rp-exp-org {
-    font-size: 0.78rem;
+    font-size: 1rem;
     color: var(--accent-purple);
     font-style: italic;
     margin-bottom: 7px;
   }
  
   .rp-exp-body {
-    font-size: 0.8rem;
+    font-size: 1rem;
     color: var(--text-secondary);
     line-height: 1.6;
   }
@@ -779,7 +779,7 @@
   }
  
   .rp-bullets li {
-    font-size: 0.78rem;
+    font-size: 1rem;
     color: var(--text-muted);
     padding-left: 14px;
     position: relative;
@@ -795,14 +795,14 @@
   }
  
   .rp-skill-group-label {
-    font-size: 0.72rem;
+    font-size: 1rem;
     font-weight: 600;
     color: var(--text-primary);
     margin-bottom: 5px;
   }
  
   .rp-skill-list {
-    font-size: 0.77rem;
+    font-size: 1rem;
     color: var(--text-muted);
     line-height: 1.65;
   }
@@ -818,7 +818,7 @@
     border: 1px solid var(--divider);
     border-radius: 20px;
     padding: 5px 13px;
-    font-size: 0.77rem;
+    font-size: 1rem;
     display: flex;
     gap: 5px;
     align-items: center;
@@ -826,6 +826,22 @@
  
   .rp-lang-item strong { color: var(--text-primary); font-weight: 500; }
   .rp-lang-item span { color: var(--text-muted); font-size: 0.7rem; }
+
+  .rp-close {
+    display: none;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--divider);
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    font-size: 1.3rem;
+    line-height: 1;
+    cursor: pointer;
+  }
  
   .rp-edu-degree {
     font-size: 0.855rem;
@@ -877,6 +893,7 @@
       overflow-y: visible;
     }
     .status-bar {
+      display: none;
       position: fixed;
       top: 0;
       left: 0;
@@ -885,6 +902,21 @@
       border-radius: 0;
       z-index: 10;
     }
+
+    .resume-panel {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      width: auto;
+      max-height: none;
+      background: rgba(13,11,20,0.95);
+      border: none;
+      border-radius: 0;
+      padding: 36px 20px 40px;
+      z-index: 1000;
+    }
+
+    .resume-panel .rp-close { display: block; }
   }
 </style>
 </head>
@@ -1013,7 +1045,7 @@
   <div class="profile-info">
     <div class="profile-header">
       <div class="profile-name">Marco Tiberio</div>
-      <span class="last-seen">APPLYING</span>
+      <span class="last-seen" id="resume-toggle" style="cursor: pointer;">RESUME</span>
     </div>
     <div class="profile-meta">37 &middot; Brand Designer</div>
     <div class="profile-distance">0 km from your next hire</div>
@@ -1079,10 +1111,6 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
         Portfolio
       </a>
-      <button class="btn-sun" id="resume-toggle" style="background: var(--accent-purple); border: 1px solid var(--divider);">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Resume
-      </button>
     </div>
     <div class="action-btns">
       <a href="mailto:tiberiomrc@gmail.com" class="btn-circle" title="Email Marco">
@@ -1121,7 +1149,9 @@
 
 <!-- Resume panel (visible on desktop alongside the phone) -->
 <div class="resume-panel">
- 
+
+  <button class="rp-close" id="resume-close" aria-label="Close resume">&times;</button>
+
   <!-- Header -->
   <div class="rp-name">Marco Tiberio</div>
   <div class="rp-title">Brand Designer &amp; Art Director</div>
@@ -1145,10 +1175,11 @@
     <div class="rp-exp-org">vorkus studio, Amsterdam</div>
     <div class="rp-exp-body">Working with founders, scale-ups, and cultural institutions as a fractional brand and web lead.</div>
     <ul class="rp-bullets">
-      <li>Designing the 2025 exhibition catalogue for Kunsthal Rotterdam</li>
-      <li>Independent publications exhibited across Europe</li>
-      <li>Brand identities, landing pages, CRM systems, campaign assets</li>
-      <li>Ships websites in code (Nuxt, Vue.js) and Webflow / Framer</li>
+      <li>Designed website for 113 Suicide Prevention foundation</li>
+      <li>Designed Brand identities, landing pages, CRM systems, campaign assets</li>
+      <li>Shot and edited short-form content and brand campaigns for citizenM</li>
+      <li>Started working on a new digital identity for an Amsterdam-based art festival</li>
+      <li>Developed websites and provided design services for cultural and sustainable institutions and media such as womenshealthinnovation.org and brandmelder.org</li>
     </ul>
   </div>
  
@@ -1183,7 +1214,6 @@
   <div class="rp-label">Education</div>
   <div class="rp-edu-degree">Researcher in Digital Design</div>
   <div class="rp-edu-school">Fabrica &mdash; Benetton Group Communication Research Centre &middot; 2016&ndash;17</div>
-  <div class="rp-edu-desc">Selected as one of 15 researchers worldwide. Worked at the intersection of design research, editorial production, and cultural communication under creative director Sam Baron.</div>
  
   <div class="rp-rule"></div>
  
@@ -1347,10 +1377,16 @@
 (function() {
   const btn = document.getElementById('resume-toggle');
   const panel = document.querySelector('.resume-panel');
+  var closeBtn = document.getElementById('resume-close');
   if (btn && panel) {
     btn.addEventListener('click', function() {
       const isVisible = panel.style.display === 'block';
       panel.style.display = isVisible ? 'none' : 'block';
+    });
+  }
+  if (closeBtn && panel) {
+    closeBtn.addEventListener('click', function() {
+      panel.style.display = 'none';
     });
   }
 })();
