@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marco — Feeld</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg-deep: #0d0b14;
+    --bg-card: #13111a;
+    --bg-surface: #1a1822;
+    --bg-tag: #262432;
+    --bg-tag-hover: #322f40;
+    --text-primary: #f0eee9;
+    --text-secondary: #9b96a6;
+    --text-muted: #6b6578;
+    --accent-purple: #7c6cff;
+    --accent-purple-soft: rgba(124, 108, 255, 0.15);
+    --divider: #2a2836;
+    --heart-bg: #1e1c28;
+  }
+
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+  }
+
+  a {
+    color: var(--accent-purple);
+    text-decoration: none;
+  }
+
+  /* iPhone 16 Pro device frame */
+  .device-frame {
+    position: relative;
+    height: calc(100vh - 40px);
+    max-width: 100%;
+    aspect-ratio: 356 / 730;
+  }
+
+  .device-svg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .device-svg img {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* Phone screen */
+  .phone {
+    position: absolute;
+    top: 1.62%;
+    left: 4.37%;
+    width: 91.25%;
+    height: 96.76%;
+    background: var(--bg-deep);
+    border-radius: 70px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Hide scrollbar */
+  .phone::-webkit-scrollbar { display: none; }
+  .phone { scrollbar-width: none; }
+
+  /* Status bar */
+  .status-bar {
+    background: var(--bg-deep);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 28px 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    position: fixed;
+    width: 42vh;
+    margin: 0 auto;
+    top: 35px;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    border-top-left-radius: 70px;
+    border-top-right-radius: 70px;
+  }
+
+  .status-bar .time { font-size: 0.85rem; font-weight: 600; }
+
+  .status-icons {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .status-icons svg { width: 18px; height: 18px; }
+
+  /* Filter bar */
+  .filter-bar {
+    display: flex;
+    gap: 0;
+    padding: 8px 0 16px 12px;
+    margin-top: 44px;
+    overflow-x: auto;
+  }
+
+  .filter-pill {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 8px;
+    padding: 8px 14px;
+    background: var(--bg-surface);
+    border: 1px solid var(--divider);
+    border-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+    flex-grow: 1;
+  }
+
+  .filter-pill:first-child {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 14px;
+    background: var(--bg-surface);
+    border: 1px solid var(--divider);
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+  }
+
+  .filter-pill svg { width: 12px; height: 12px; opacity: 0.6; }
+
+  /* Carousel */
+  .carousel {
+    position: relative;
+    margin: 0 16px;
+    width: calc(100% - 32px);
+    border-radius: 12px;
+    border-top-right-radius: 0;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    touch-action: pan-y;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .carousel-track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  .carousel-slide video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    background: #000;
+  }
+
+  .carousel-slide .slide-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a1822 0%, #262432 40%, #1a1822 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: var(--text-muted);
+  }
+
+  .slide-placeholder svg { width: 48px; height: 48px; opacity: 0.4; }
+  .slide-placeholder span { font-size: 0.75rem; letter-spacing: 0.05em; opacity: 0.5; }
+
+  /* Video play icon overlay */
+  .video-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.15);
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.3s;
+  }
+
+  .video-overlay.hidden { opacity: 0; }
+
+  .video-overlay .play-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .video-overlay .play-icon svg { width: 24px; height: 24px; color: white; }
+
+  /* Slide label overlay */
+  .slide-label {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.85);
+    text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+    letter-spacing: 0.02em;
+  }
+
+  /* Dot indicators */
+  .carousel-dots {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 5;
+  }
+
+  .carousel-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.3);
+    transition: background 0.3s;
+    cursor: pointer;
+  }
+
+  .carousel-dot.active {
+    background: rgba(255,255,255,0.9);
+    width: 7px;
+    height: 20px;
+  }
+
+  /* Tap zones */
+  .carousel-tap-left,
+  .carousel-tap-right {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 40%;
+    height: 90%;
+    z-index: 3;
+    cursor: pointer;
+  }
+
+  .carousel-tap-left { left: 0; }
+  .carousel-tap-right { right: 0; }
+
+  /* Profile info */
+  .profile-info {
+    padding: 20px 20px 0;
+  }
+
+  .profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+
+  .profile-name {
+    position: relative;
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+  }
+
+  .profile-name::after {
+    content: 'M';
+    border-radius: 50px;
+    position: absolute;
+    top: 4px;
+    width: 25px;
+    height: 25px;
+    background-color: #f2441c;
+    font-size: 12px; 
+    line-height: 25px;
+    text-align: center;
+    display: inline-block;
+    margin-left: 5px;
+  }
+
+  .last-seen {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    border: 1px solid var(--divider);
+    border-radius: 50px;
+    padding: 5px 9px;
+  }
+
+  .profile-meta {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 2px;
+  }
+
+  .profile-distance {
+    font-size: 0.85rem;
+    color: var(--accent-purple);
+    margin-bottom: 20px;
+  }
+
+  /* Bio */
+  .bio {
+    padding: 0 20px;
+    margin-bottom: 8px;
+  }
+
+  .bio-quote {
+    display: none;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--text-primary);
+    font-weight: 400;
+    margin-bottom: 16px;
+  }
+
+  .bio-quote .quote-mark {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin-right: 4px;
+  }
+
+  .bio-text {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    margin-bottom: 14px;
+  }
+
+  .bio-text strong {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .bio-cta {
+    font-size: 1remrem;
+    line-height: 1.65;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  .bio.collapsed .bio-cta {
+    display: none;
+  }
+
+  .read-more {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-decoration: underline;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+  }
+
+  /* Tags section */
+  .tags-section {
+    padding: 20px 20px 0;
+  }
+
+  .tags-label {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 14px;
+  }
+
+  .tags-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .tag {
+    padding: 9px 16px;
+    background: var(--bg-card);
+    border-radius: 20px;
+    border: 1px solid var(--divider);
+    font-size: 0.82rem;
+    font-weight: 400;
+    color: var(--text-primary);
+    transition: background 0.2s;
+    cursor: default;
+  }
+
+  /* Divider */
+  .section-divider {
+    height: 1px;
+    background: var(--divider);
+    margin: 8px 20px 0;
+  }
+
+  /* Action buttons */
+  .sticky-actions {
+    position: sticky;
+    bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 100;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+  }
+
+  .btn-sun {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 24px;
+    background: var(--accent-purple);
+    border-radius: 28px;
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .btn-sun:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 20px rgba(124, 108, 255, 0.3);
+  }
+
+  .btn-sun svg { width: 20px; height: 20px; }
+
+  .action-btns {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  .btn-circle {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid var(--divider);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+
+  .btn-circle:hover {
+    background: #fff;
+    transform: scale(1.05);
+  }
+
+  .btn-circle:hover svg { fill: var(--bg-deep); stroke: #fff; }
+
+  .btn-circle svg { width: 22px; height: 22px; color: var(--text-primary); }
+
+  /* Bottom nav */
+  .bottom-nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 16px 28px 24px;
+    background: var(--bg-card);
+    border-radius: 20px;
+    margin-bottom: 20px;
+    width: calc(100% - 40px);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: var(--text-muted);
+    text-decoration: none;
+    position: relative;
+  }
+
+  .nav-item svg { width: 24px; height: 24px; }
+
+  .nav-item.active svg { color: var(--text-primary); }
+
+  .nav-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--accent-purple);
+    position: absolute;
+    bottom: -8px;
+  }
+
+  /* Home indicator */
+  .home-indicator {
+    display: none;
+    justify-content: center;
+    padding-bottom: 8px;
+    background: var(--bg-card);
+  }
+
+  .home-indicator-bar {
+    display: none;
+    width: 134px;
+    height: 5px;
+    border-radius: 3px;
+    background: var(--text-primary);
+    opacity: 0.3;
+  }
+
+  /* Responsive: on wider screens show side-by-side explanation */
+  @media (min-width: 900px) {
+    body {
+      align-items: center;
+      min-height: 100vh;
+      gap: 60px;
+    }
+
+    .side-note {
+      display: block;
+      max-width: 340px;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      line-height: 1.7;
+    }
+
+    .side-note h2 {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .side-note p {
+      margin-bottom: 16px;
+    }
+
+    .side-note a {
+      color: var(--accent-purple);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(124, 108, 255, 0.3);
+    }
+
+    .side-note a:hover {
+      border-color: var(--accent-purple);
+    }
+  }
+
+  @media (max-width: 899px) {
+    .side-note { display: none; }
+    body { padding: 0; }
+    .device-frame {
+      width: 100%;
+      aspect-ratio: auto;
+      height: auto;
+    }
+    .device-svg { display: none; }
+    .phone {
+      position: relative;
+      top: auto;
+      left: auto;
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      min-height: 100vh;
+      overflow-y: visible;
+    }
+    .status-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      border-radius: 0;
+      z-index: 10;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Phone mockup -->
+<div class="device-frame">
+<div class="device-svg"><img src="img/IPhone_16_Pro_Vector.svg" alt=""></div>
+<div class="phone">
+
+  <!-- Status bar -->
+  <div class="status-bar">
+    <span class="time" id="live-time">14:07</span>
+    <div class="status-icons">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path d="M3 14h2v4H3zm4-4h2v8H7zm4-4h2v12h-2zm4-4h2v16h-2z"/></svg>
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="18" height="12" rx="2"/><path d="M22 11v4" stroke-linecap="round"/><rect x="4" y="9" width="8" height="8" rx="1" fill="#fff" stroke="none"/></svg>
+    </div>
+  </div>
+
+  <!-- Filter bar -->
+  <div class="filter-bar">
+    <div class="filter-pill">
+      Desires
+      <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 4.5l3 3 3-3"/></svg>
+    </div>
+    <div class="filter-pill">
+      Location
+      <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 4.5l3 3 3-3"/></svg>
+    </div>
+    <div class="filter-pill">
+      51 km
+      <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 4.5l3 3 3-3"/></svg>
+    </div>
+    <div class="filter-pill">
+      Age
+      <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 4.5l3 3 3-3"/></svg>
+    </div>
+  </div>
+
+  <!-- Carousel -->
+  <div class="carousel" id="carousel">
+    <!-- Dot indicators -->
+    <div class="carousel-dots" id="carouselDots"></div>
+
+    <!-- Tap zones -->
+    <div class="carousel-tap-left" id="tapLeft"></div>
+    <div class="carousel-tap-right" id="tapRight"></div>
+
+    <!-- Slides -->
+    <div class="carousel-track" id="carouselTrack">
+
+      <!-- Slide 1: Profile photo -->
+
+      <!-- Slide 5: Work sample — editorial -->
+      <div class="carousel-slide">
+        <img style="object-fit: contain;" src="img/1768487460893.jpeg" alt="Editorial Design" onerror="this.outerHTML='<div class=slide-placeholder><svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.2&quot;><path d=&quot;M4 19.5A2.5 2.5 0 016.5 17H20&quot;/><path d=&quot;M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z&quot;/></svg><span>EDITORIAL / PUBLICATION</span></div>'"/>
+        <div class="slide-label">Me</div>
+      </div>
+      
+      <div class="carousel-slide">
+        <img style="object-fit: contain;" src="https://freight.cargo.site/w/683/q/94/i/7e21452e60822f6ddfa0313e8fb4ace612a6cb25a10144ccd5a62b549abb41f1/BRANDS-524_BF24_Newsletter_header_mobile_Reminder02-ezgif.com-optimize-1.gif" alt="Editorial Design" onerror="this.outerHTML='<div class=slide-placeholder><svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.2&quot;><path d=&quot;M4 19.5A2.5 2.5 0 016.5 17H20&quot;/><path d=&quot;M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z&quot;/></svg><span>EDITORIAL / PUBLICATION</span></div>'"/>
+        <div class="slide-label">Brand Campaign - citizenM</div>
+      </div>
+      
+      <div class="carousel-slide">
+        <img style="object-fit: cover;" src="img/Screenshot 2026-03-19 at 09.48.34.png" alt="Editorial Design" onerror="this.outerHTML='<div class=slide-placeholder><svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.2&quot;><path d=&quot;M4 19.5A2.5 2.5 0 016.5 17H20&quot;/><path d=&quot;M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z&quot;/></svg><span>EDITORIAL / PUBLICATION</span></div>'"/>
+        <div class="slide-label">Brand Design - citizenM</div>
+      </div>
+
+      <div class="carousel-slide">
+        <img style="object-fit: cover;" src="img/Screenshot 2026-03-19 at 09.48.12.png" alt="Editorial Design" onerror="this.outerHTML='<div class=slide-placeholder><svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.2&quot;><path d=&quot;M4 19.5A2.5 2.5 0 016.5 17H20&quot;/><path d=&quot;M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z&quot;/></svg><span>EDITORIAL / PUBLICATION</span></div>'"/>
+        <div class="slide-label"><a href="https://sleep.citizenm.com/" target="_blank" style="position:relative; z-index: 9999;">Microsite Brand & UI Design - citizenM</a></div>
+      </div>
+
+      <div class="carousel-slide">
+        <img style="object-fit: contain;" src="img/appdesign.png" alt="Editorial Design" onerror="this.outerHTML='<div class=slide-placeholder><svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.2&quot;><path d=&quot;M4 19.5A2.5 2.5 0 016.5 17H20&quot;/><path d=&quot;M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z&quot;/></svg><span>EDITORIAL / PUBLICATION</span></div>'"/>
+        <div class="slide-label">App Design - citizenM</div>
+      </div>
+
+      <!-- Slide 3: Work sample — website -->
+      <div class="carousel-slide">
+        <img src="https://freight.cargo.site/w/540/q/94/i/793d549f03a174d8f1e749e8887a85700eb1fbe0ce7311cd89a5f0ef5b415d93/RaffleIsOpen-ezgif.com-video-to-gif-converter.gif" alt="Website Design" onerror="this.outerHTML='<div class=slide-placeholder><svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.2&quot;><rect x=&quot;3&quot; y=&quot;3&quot; width=&quot;18&quot; height=&quot;18&quot; rx=&quot;2&quot;/><circle cx=&quot;8.5&quot; cy=&quot;8.5&quot; r=&quot;1.5&quot;/><path d=&quot;M21 15l-5-5L5 21&quot;/></svg><span>WEBSITE DESIGN</span></div>'"/>
+        <div class="slide-label">Video/Photography & Brand Design Campaign - citizenM</div>
+      </div>
+
+      <!-- Slide 3: Work sample — website -->
+      <div class="carousel-slide">
+        <img src="EVP_Billboard_EVP-LDN-PAU.webp" alt="Website Design" onerror="this.outerHTML='<div class=slide-placeholder><svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.2&quot;><rect x=&quot;3&quot; y=&quot;3&quot; width=&quot;18&quot; height=&quot;18&quot; rx=&quot;2&quot;/><circle cx=&quot;8.5&quot; cy=&quot;8.5&quot; r=&quot;1.5&quot;/><path d=&quot;M21 15l-5-5L5 21&quot;/></svg><span>WEBSITE DESIGN</span></div>'"/>
+        <div class="slide-label">Campaign Photography & Design Campaign - citizenM</div>
+      </div>
+
+      <!-- Slide 6: Work sample — art direction -->
+      <div class="carousel-slide">
+        <img style="object-fit: contain;" src="https://freight.cargo.site/w/800/q/94/i/c2049269bb8da725e9eaa7bd081f6b8536b9bcaba68767d8af11bd3d00cb63b5/113-WEBSITE-ezgif.com-video-to-gif-converter.gif" alt="Art Direction" onerror="this.outerHTML='<div class=slide-placeholder><svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.2&quot;><rect x=&quot;3&quot; y=&quot;3&quot; width=&quot;18&quot; height=&quot;18&quot; rx=&quot;2&quot;/><circle cx=&quot;8.5&quot; cy=&quot;8.5&quot; r=&quot;1.5&quot;/><path d=&quot;M21 15l-5-5L5 21&quot;/></svg><span>ART DIRECTION</span></div>'"/>
+        <div class="slide-label">Brand and UX Design - 113 Suicide Prevention</div>
+      </div>
+
+      <div class="carousel-slide">
+        <img src="https://freight.cargo.site/w/1426/q/75/i/05a23c0708053756ac8462115622ed66c2824aa29286e90eecf0deb1e021205f/Screenshot-2025-06-25-at-18.00.55.png" alt="Marco Tiberio" onerror="this.outerHTML='<div class=slide-placeholder><svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.2&quot;><path d=&quot;M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2&quot;/><circle cx=&quot;12&quot; cy=&quot;7&quot; r=&quot;4&quot;/></svg><span>PROFILE PHOTO</span></div>'"/>
+        <div class="slide-label">editorial campaign - Metropolis M Magazine</div>
+      </div>
+
+      <!-- Slide 6: Work sample — art direction -->
+      <div class="carousel-slide">
+        <img src="https://freight.cargo.site/w/1453/q/94/i/3e85ec7bc841808b279e70ff69d5c59cfe6e0432121cff72e2319da10f598384/Summer_Sale_campaign_2024_team_sleep_tennis_main_2560x1440.jpg" alt="Art Direction" onerror="this.outerHTML='<div class=slide-placeholder><svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.2&quot;><rect x=&quot;3&quot; y=&quot;3&quot; width=&quot;18&quot; height=&quot;18&quot; rx=&quot;2&quot;/><circle cx=&quot;8.5&quot; cy=&quot;8.5&quot; r=&quot;1.5&quot;/><path d=&quot;M21 15l-5-5L5 21&quot;/></svg><span>ART DIRECTION</span></div>'"/>
+        <div class="slide-label">Photography Brand Campaign - citizenM</div>
+      </div>
+
+      <!-- Slide 6: Work sample — art direction -->
+      <div class="carousel-slide">
+        <img src="https://freight.cargo.site/w/1500/q/75/i/0ce40c3705d54bba13631f6bdd4d2849b2ae46d4899385a2801936a7f3d1495a/immorefugee008.jpeg" alt="Art Direction" onerror="this.outerHTML='<div class=slide-placeholder><svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.2&quot;><rect x=&quot;3&quot; y=&quot;3&quot; width=&quot;18&quot; height=&quot;18&quot; rx=&quot;2&quot;/><circle cx=&quot;8.5&quot; cy=&quot;8.5&quot; r=&quot;1.5&quot;/><path d=&quot;M21 15l-5-5L5 21&quot;/></svg><span>ART DIRECTION</span></div>'"/>
+        <div class="slide-label">Immorefugee - Publication</div>
+      </div>
+
+      <!-- Slide 6: Work sample — art direction -->
+      <div class="carousel-slide">
+        <img style="object-fit: cover; object-position: center bottom;" src="https://compass-media.vogue.it/photos/5c07edcad1949b7a4e2e0b33/master/w_2048%2Cc_limit/enlargemagazine004_marcotiberio.jpg" alt="Art Direction" onerror="this.outerHTML='<div class=slide-placeholder><svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.2&quot;><rect x=&quot;3&quot; y=&quot;3&quot; width=&quot;18&quot; height=&quot;18&quot; rx=&quot;2&quot;/><circle cx=&quot;8.5&quot; cy=&quot;8.5&quot; r=&quot;1.5&quot;/><path d=&quot;M21 15l-5-5L5 21&quot;/></svg><span>ART DIRECTION</span></div>'"/>
+        <div class="slide-label">Enlarge Magazine - Publication</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Profile info -->
+  <div class="profile-info">
+    <div class="profile-header">
+      <div class="profile-name">Marco Tiberio</div>
+      <span class="last-seen">APPLYING</span>
+    </div>
+    <div class="profile-meta">37 &middot; Brand Designer</div>
+    <div class="profile-distance">0 km from your next hire</div>
+  </div>
+
+  <!-- Bio -->
+  <div class="bio collapsed" id="bio">
+    <div class="bio-quote">
+      <span class="quote-mark">&ldquo;&ldquo;</span> I treat design as emotional infrastructure &mdash; even in commercial contexts. Especially in commercial contexts.
+    </div>
+
+    <div class="bio-text">
+      In my last job in-house I spent two years as the <strong>in-house creative for citizenM and KesselsKramer</strong>, owning the brand&rsquo;s digital visual identity across every touchpoint. CRM emails, landing pages, paid campaigns, social, app assets. I led the global campaigns team and delivered some of the brand&rsquo;s most successful campaigns to date.
+    </div>
+
+    <div class="bio-text">
+      <!-- TODO: Links to work samples. -->
+      I used to work as <a href="https://www.wired.com/2016/07/marco-tiberio-invisible-cities-architecture-of-exodus/" target="_blank">documentary photographer</a>, and that background still informs how I approach brand storytelling.
+      Now I also build in code, produce independent publications (such as <a href="https://www.printedmatter.org/catalog/46754/" target="_blank">Immorefugee</a> and <a href="https://www.vogue.it/fotografia/gallery/enlarge-magazine-by-marco-tiberio" target="_blank">Enlarge Magazine</a>) exhibited across Europe, made a <a href="https://kiosk.art/nl/metropolis-m-2025-defrost-studio" target="_blank">campaign series for Dutch magazine metropolisM</a>, and designed a catalogue for Kunsthal Rotterdam.<br>My background is the rare overlap of brand craft, editorial storytelling, and frontend fluency.
+    </div>
+
+    <div class="bio-text">
+      Since leaving citizenM and Kesselskramer I've been running <i>vorkus</i>, working with founders and cultural organisations on identity, web, and editorial work. The scope shifts, but the interest doesn't: I'm drawn to <strong>design that changes how something feels</strong>, not just how it looks.
+    </div>
+
+    <!-- <button class="read-more" id="read-more-btn">Read more</button> -->
+  </div>
+
+  <!-- Desires (Skills for the role) -->
+  <div class="tags-section">
+    <div class="tags-label">Experience</div>
+    <div class="tags-grid">
+      <span class="tag">Brand Systems</span>
+      <span class="tag">Brand Campaigns</span>
+      <span class="tag">CRM Design</span>
+      <span class="tag">Visual Storytelling</span>
+      <span class="tag">Figma Fluency</span>
+      <span class="tag">Art Direction</span>
+      <span class="tag">Coding</span>
+      <span class="tag">Scalable Templates</span>
+      <span class="tag">Photo/Video</span>
+    </div>
+  </div>
+
+  <!-- Interests -->
+  <div class="tags-section">
+    <div class="tags-label">Interests</div>
+    <div class="tags-grid">
+      <span class="tag">Editorial Design</span>
+      <span class="tag">Independent Publishing</span>
+      <span class="tag">Remote Culture</span>
+      <span class="tag">Conscious Design</span>
+      <span class="tag">Freedom of Expression</span>
+    </div>
+  </div>
+
+  <!-- <div class="section-divider"></div> -->
+
+  <!-- Action buttons -->
+  <div class="sticky-actions">
+    <div class="actions">
+      <a href="https://tiberiomar.com" target="_blank" class="btn-sun">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        Portfolio
+      </a>
+    </div>
+    <div class="action-btns">
+      <a href="mailto:tiberiomrc@gmail.com" class="btn-circle" title="Email Marco">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--bg-deep)" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 4l10 9 10-9"/></svg>
+      </a>
+      <a href="mailto:tiberiomrc@gmail.com" target="_blank" class="btn-circle" title="View portfolio">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--bg-deep)" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Bottom nav -->
+  <div class="bottom-nav">
+    <a class="nav-item active" href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    </a>
+    <a class="nav-item" href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+      <span class="nav-dot"></span>
+    </a>
+    <a class="nav-item" href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      <span class="nav-dot"></span>
+    </a>
+    <a class="nav-item" href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </a>
+  </div>
+
+  <div class="home-indicator">
+    <div class="home-indicator-bar"></div>
+  </div>
+
+</div>
+</div>
+
+<!-- Side note (visible on desktop) -->
+<!-- <div class="side-note">
+  <h2>About this application</h2>
+  <p>This is a cover letter disguised as a Feeld profile &mdash; because applying for a Brand Designer role should itself be an act of brand design.</p>
+  <p>I&rsquo;m Marco Tiberio, a brand designer and art director based in Amsterdam. I applied to Feeld last summer and was encouraged to try again. This time, the fit is sharper.</p>
+  <p>My resume and portfolio tell the full story. This just felt like the right way to say hello again.</p>
+  <p style="margin-top: 32px;">
+    <a href="mailto:tiberiomrc@gmail.com">tiberiomrc@gmail.com</a><br>
+    <a href="https://tiberiomar.com">tiberiomar.com</a><br>
+    +31 6 29 32 78 75
+  </p>
+</div>  -->
+
+<script>
+(function() {
+  const track = document.getElementById('carouselTrack');
+  const dotsContainer = document.getElementById('carouselDots');
+  const tapLeft = document.getElementById('tapLeft');
+  const tapRight = document.getElementById('tapRight');
+  const slides = track.querySelectorAll('.carousel-slide');
+  const total = slides.length;
+  let current = 0;
+  let startX = 0;
+  let isDragging = false;
+
+  // Build dots
+  for (let i = 0; i < total; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+    dot.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(dot);
+  }
+
+  function goTo(index) {
+    // Pause any playing video on current slide
+    const currentVideo = slides[current].querySelector('video');
+    if (currentVideo) {
+      currentVideo.pause();
+      const overlay = slides[current].querySelector('.video-overlay');
+      if (overlay) overlay.classList.remove('hidden');
+    }
+
+    current = Math.max(0, Math.min(index, total - 1));
+    track.style.transform = `translateX(-${current * 100}%)`;
+
+    // Update dots
+    dotsContainer.querySelectorAll('.carousel-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === current);
+    });
+  }
+
+  // Tap navigation
+  tapLeft.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (current > 0) goTo(current - 1);
+  });
+
+  tapRight.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (current < total - 1) goTo(current + 1);
+  });
+
+  // Swipe support
+  const carousel = document.getElementById('carousel');
+
+  carousel.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    isDragging = true;
+  }, { passive: true });
+
+  carousel.addEventListener('touchend', (e) => {
+    if (!isDragging) return;
+    isDragging = false;
+    const endX = e.changedTouches[0].clientX;
+    const diff = startX - endX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0 && current < total - 1) goTo(current + 1);
+      else if (diff < 0 && current > 0) goTo(current - 1);
+    }
+  }, { passive: true });
+
+  // Video tap to play/pause
+  slides.forEach((slide) => {
+    if (slide.dataset.type === 'video') {
+      const video = slide.querySelector('video');
+      const overlay = slide.querySelector('.video-overlay');
+      if (video && overlay) {
+        slide.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (video.paused) {
+            video.play();
+            overlay.classList.add('hidden');
+          } else {
+            video.pause();
+            overlay.classList.remove('hidden');
+          }
+        });
+      }
+    }
+  });
+
+  // Keyboard nav
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') goTo(current - 1);
+    else if (e.key === 'ArrowRight') goTo(current + 1);
+  });
+})();
+
+// Read more toggle
+(function() {
+  const bio = document.getElementById('bio');
+  const btn = document.getElementById('read-more-btn');
+  btn.addEventListener('click', function() {
+    const collapsed = bio.classList.toggle('collapsed');
+    btn.textContent = collapsed ? 'Read more' : 'Read less';
+  });
+})();
+
+
+// Live clock
+(function() {
+  const el = document.getElementById('live-time');
+  function update() {
+    const now = new Date();
+    el.textContent = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+  }
+  update();
+  setInterval(update, 1000);
+})();
+</script>
+</body>
+</html>
