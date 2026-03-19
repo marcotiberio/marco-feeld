@@ -124,7 +124,7 @@
     display: flex;
     gap: 0;
     padding: 8px 0 16px 12px;
-    margin-top: 24px;
+    margin-top: 44px;
     overflow-x: auto;
   }
 
@@ -708,9 +708,7 @@
     align-items: center;
     gap: 10px;
   }
- 
-  .rp-label::after { content: ''; flex: 1; height: 1px; background: var(--divider); }
- 
+  
   .rp-summary p {
     font-size: 1rem;
     color: var(--text-secondary);
@@ -723,7 +721,6 @@
   .rp-exp-item {
     position: relative;
     padding-left: 18px;
-    border-left: 2px solid var(--divider);
     margin-bottom: 22px;
   }
  
@@ -885,6 +882,9 @@
       width: 100%;
       aspect-ratio: auto;
       height: auto;
+    }
+    .filter-bar {
+      margin-top: 0;
     }
     .device-svg { display: none; }
     .phone {
@@ -1225,7 +1225,6 @@
   <div class="rp-edu-degree">Researcher in Digital Design</div>
   <div class="rp-edu-school">Fabrica &mdash; Benetton Group Communication Research Centre &middot; 2016&ndash;17</div> -->
  
-  <div class="rp-rule"></div>
  
   <!-- Skills -->
   <div class="rp-label">Skills</div>
