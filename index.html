@@ -644,6 +644,248 @@
       z-index: 10;
     }
   }
+
+/* ── Resume panel ──────────────────────────────────────────────────────── */
+  .resume-panel {
+    display: none;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 50vh;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    scrollbar-width: none;
+    background: var(--bg-card);
+    border: 1px solid var(--divider);
+    border-radius: 24px;
+    padding: 36px 32px 40px;
+  }
+ 
+  .resume-panel::-webkit-scrollbar { display: none; }
+ 
+  .rp-name {
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+ 
+  .rp-title {
+    font-size: 0.875rem;
+    color: var(--accent-purple);
+    font-weight: 500;
+    margin-bottom: 14px;
+  }
+ 
+  .rp-contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 14px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+ 
+  .rp-contact a { color: var(--text-muted); transition: color 0.2s; }
+  .rp-contact a:hover { color: var(--accent-purple); }
+ 
+  .rp-rule { height: 1px; background: var(--divider); margin: 22px 0; }
+ 
+  .rp-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+ 
+  .rp-label::after { content: ''; flex: 1; height: 1px; background: var(--divider); }
+ 
+  .rp-summary p {
+    font-size: 0.855rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 11px;
+  }
+ 
+  .rp-summary p:last-child { margin-bottom: 0; }
+ 
+  .rp-exp-item {
+    position: relative;
+    padding-left: 18px;
+    border-left: 2px solid var(--divider);
+    margin-bottom: 22px;
+  }
+ 
+  .rp-exp-item:last-child { margin-bottom: 0; }
+ 
+  .rp-exp-item::before {
+    content: '';
+    position: absolute;
+    left: -5px; top: 6px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent-purple);
+    border: 2px solid var(--bg-card);
+  }
+ 
+  .rp-exp-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 2px;
+  }
+ 
+  .rp-exp-title {
+    font-size: 0.855rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.3;
+  }
+ 
+  .rp-exp-date {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    padding-top: 2px;
+    flex-shrink: 0;
+  }
+ 
+  .rp-exp-org {
+    font-size: 0.78rem;
+    color: var(--accent-purple);
+    font-style: italic;
+    margin-bottom: 7px;
+  }
+ 
+  .rp-exp-body {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+ 
+  .rp-bullets {
+    list-style: none;
+    margin-top: 7px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+ 
+  .rp-bullets li {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.5;
+  }
+ 
+  .rp-bullets li::before { content: '–'; position: absolute; left: 0; }
+ 
+  .rp-skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+ 
+  .rp-skill-group-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+  }
+ 
+  .rp-skill-list {
+    font-size: 0.77rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+ 
+  .rp-lang {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+ 
+  .rp-lang-item {
+    background: var(--bg-surface);
+    border: 1px solid var(--divider);
+    border-radius: 20px;
+    padding: 5px 13px;
+    font-size: 0.77rem;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+  }
+ 
+  .rp-lang-item strong { color: var(--text-primary); font-weight: 500; }
+  .rp-lang-item span { color: var(--text-muted); font-size: 0.7rem; }
+ 
+  .rp-edu-degree {
+    font-size: 0.855rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 3px;
+  }
+ 
+  .rp-edu-school {
+    font-size: 0.8rem;
+    color: var(--accent-purple);
+    font-style: italic;
+    margin-bottom: 6px;
+  }
+ 
+  .rp-edu-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+ 
+  @media (min-width: 900px) {
+    body {
+      align-items: center;
+      min-height: 100vh;
+      gap: 48px;
+    }
+ 
+    .resume-panel { display: none; }
+  }
+ 
+  @media (max-width: 899px) {
+    .resume-panel { display: none; }
+    body { padding: 0; }
+    .device-frame {
+      width: 100%;
+      aspect-ratio: auto;
+      height: auto;
+    }
+    .device-svg { display: none; }
+    .phone {
+      position: relative;
+      top: auto;
+      left: auto;
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      min-height: 100vh;
+      overflow-y: visible;
+    }
+    .status-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      border-radius: 0;
+      z-index: 10;
+    }
+  }
 </style>
 </head>
 <body>
@@ -832,11 +1074,15 @@
 
   <!-- Action buttons -->
   <div class="sticky-actions">
-    <div class="actions">
+    <div class="actions" style="gap:10px; display:flex;">
       <a href="https://tiberiomar.com" target="_blank" class="btn-sun">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
         Portfolio
       </a>
+      <button class="btn-sun" id="resume-toggle" style="background: var(--accent-purple); border: 1px solid var(--divider);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Resume
+      </button>
     </div>
     <div class="action-btns">
       <a href="mailto:tiberiomrc@gmail.com" class="btn-circle" title="Email Marco">
@@ -871,6 +1117,109 @@
   </div>
 
 </div>
+</div>
+
+<!-- Resume panel (visible on desktop alongside the phone) -->
+<div class="resume-panel">
+ 
+  <!-- Header -->
+  <div class="rp-name">Marco Tiberio</div>
+  <div class="rp-title">Brand Designer &amp; Art Director</div>
+  <div class="rp-contact">
+    <span>Amsterdam, NL</span>
+    <a href="mailto:tiberiomrc@gmail.com">tiberiomrc@gmail.com</a>
+    <a href="https://tiberiomar.com" target="_blank">tiberiomar.com</a>
+    <span>+31 6 29 32 78 75</span>
+  </div>
+  
+  <div class="rp-rule"></div>
+ 
+  <!-- Experience -->
+  <div class="rp-label">Experience</div>
+ 
+  <div class="rp-exp-item">
+    <div class="rp-exp-header">
+      <div class="rp-exp-title">Brand Designer &amp; Art Director &mdash; Freelance</div>
+      <div class="rp-exp-date">2020 &mdash; Present</div>
+    </div>
+    <div class="rp-exp-org">vorkus studio, Amsterdam</div>
+    <div class="rp-exp-body">Working with founders, scale-ups, and cultural institutions as a fractional brand and web lead.</div>
+    <ul class="rp-bullets">
+      <li>Designing the 2025 exhibition catalogue for Kunsthal Rotterdam</li>
+      <li>Independent publications exhibited across Europe</li>
+      <li>Brand identities, landing pages, CRM systems, campaign assets</li>
+      <li>Ships websites in code (Nuxt, Vue.js) and Webflow / Framer</li>
+    </ul>
+  </div>
+ 
+  <div class="rp-exp-item">
+    <div class="rp-exp-header">
+      <div class="rp-exp-title">In-House Brand Designer &amp; Art Director</div>
+      <div class="rp-exp-date">2022 &mdash; 2025</div>
+    </div>
+    <div class="rp-exp-org">citizenM at KesselsKramer, Amsterdam</div>
+    <div class="rp-exp-body">Embedded in citizenM&rsquo;s Brand Studio, owning the digital visual identity across all touchpoints.</div>
+    <ul class="rp-bullets">
+      <li>Landing pages, CRM emails, paid ads, social, app assets</li>
+      <li>Co-led campaigns generating &euro;20M+ revenue &mdash; brand&rsquo;s best to date</li>
+      <li>Led in-house content team &mdash; &euro;50K+ annual cost savings</li>
+      <li>Directed a short brand film end-to-end</li>
+      <li>Built and maintained brand design system in Figma</li>
+    </ul>
+  </div>
+ 
+  <div class="rp-exp-item">
+    <div class="rp-exp-header">
+      <div class="rp-exp-title">Guest Lecturer &mdash; Master of Forms</div>
+      <div class="rp-exp-date">2018 &mdash; 2019</div>
+    </div>
+    <div class="rp-exp-org">Akademie van Bouwkunst Amsterdam</div>
+    <div class="rp-exp-body">Co-led a seminar on publication design and editorial thinking within the Master of Forms programme.</div>
+  </div>
+ 
+  <div class="rp-rule"></div>
+ 
+  <!-- Education -->
+  <div class="rp-label">Education</div>
+  <div class="rp-edu-degree">Researcher in Digital Design</div>
+  <div class="rp-edu-school">Fabrica &mdash; Benetton Group Communication Research Centre &middot; 2016&ndash;17</div>
+  <div class="rp-edu-desc">Selected as one of 15 researchers worldwide. Worked at the intersection of design research, editorial production, and cultural communication under creative director Sam Baron.</div>
+ 
+  <div class="rp-rule"></div>
+ 
+  <!-- Skills -->
+  <div class="rp-label">Skills</div>
+  <div class="rp-skills-grid">
+    <div>
+      <div class="rp-skill-group-label">Design</div>
+      <div class="rp-skill-list">Brand identity, art direction<br>Campaign &amp; CRM design<br>Editorial layout<br>Design systems, motion</div>
+    </div>
+    <div>
+      <div class="rp-skill-group-label">Frontend</div>
+      <div class="rp-skill-list">HTML, CSS, JavaScript<br>Vue.js, Nuxt, Sanity CMS<br>Webflow, Framer</div>
+    </div>
+    <div>
+      <div class="rp-skill-group-label">Tools</div>
+      <div class="rp-skill-list">Figma, Adobe CS<br>After Effects<br>Premiere, Lightroom</div>
+    </div>
+    <div>
+      <div class="rp-skill-group-label">Production</div>
+      <div class="rp-skill-list">Photography &amp; videography<br>Short-form content<br>Print &amp; editorial</div>
+    </div>
+  </div>
+ 
+  <div class="rp-rule"></div>
+ 
+  <!-- Languages -->
+  <div class="rp-label">Languages</div>
+  <div class="rp-lang">
+    <div class="rp-lang-item"><strong>Italian</strong><span>Native</span></div>
+    <div class="rp-lang-item"><strong>English</strong><span>Advanced</span></div>
+    <div class="rp-lang-item"><strong>French</strong><span>Advanced</span></div>
+    <div class="rp-lang-item"><strong>Spanish</strong><span>Intermediate</span></div>
+    <div class="rp-lang-item"><strong>Arabic</strong><span>Intermediate</span></div>
+  </div>
+ 
 </div>
 
 <!-- Side note (visible on desktop) -->
@@ -993,6 +1342,18 @@
   }
 })();
 
+
+// Resume toggle
+(function() {
+  const btn = document.getElementById('resume-toggle');
+  const panel = document.querySelector('.resume-panel');
+  if (btn && panel) {
+    btn.addEventListener('click', function() {
+      const isVisible = panel.style.display === 'block';
+      panel.style.display = isVisible ? 'none' : 'block';
+    });
+  }
+})();
 
 // Live clock
 (function() {
